@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"></script>
+
+  {%block title%}
+  {%endblock%}
+
+</head>
+
+<body>
+
+  {%if messages%}
+
+  {%for message in messages%}
+  {%if message.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+  <pre><div class="alert alert-danger" role="alert">{{message}} &#128543</div></pre>
+  {%endif%}
+  {%if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+  <div class="alert alert-success" role="alert"> {{message}} &#128515&#128077</div>
+  {%endif%}
+  {% endfor %}
+
+  {%endif%}
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Study Box</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+
+
+          <li class="nav-item">
+            <a class="btn btn-success active m-1" href="/tasks">Tasks</a>
+          </li>
+
+          {%block navitem%}
+          {%endblock%}
+
+        </ul>
+        <nav class="navbar navbar-light bg-light">
+          <span class="navbar-text mx-1">
+            {%if user.is_authenticated%}
+            Hello, {{user.username|capfirst}}
+            {%else%}
+            Hello, Visitor
+            {%endif%}
+          </span>
+        </nav>
+
+        <form class="d-flex">
+
+          <!--
+          <input class="form-control me-1" type="search" placeholder="Search">
+          <button class="btn btn-outline-success mx-1" type="submit">Search</button>
+          -->
+
+          {%if not user.is_authenticated %}
+          <a href="/signin" class="btn btn-success">SignIn</a>
+          {%endif%}
+
+          {%if user.is_authenticated %}
+          {%if user.username == 'ajay' %}
+          <a href='/admin' class="btn btn-success mx-2">Admin</a>
+          {%endif%}
+
+          <a href='/logout' class="btn btn-success">Logout</a>
+          {%endif%}
+
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  {%block content%}
+  {%endblock%}
+
+
+  <footer class="bg-light text-center text-lg-start fixed-bottom">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+      © 2020 Copyright:
+      <a class="text-dark" href="/">Study Box</a><br>
+      Created for Ajay, Aditya, Divyansh and many others
+    </div>
+  </footer>
+
+</body>
+
+</html>
