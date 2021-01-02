@@ -13,7 +13,7 @@ def home(request):
         users.append(user.username)
         respTaskComp.append(len(user.task_set.all()))
     
-    context = {'users':users, 'tasksCompleted':respTaskComp}
+    context = {'allUsernames':users, 'tasksCompleted':respTaskComp}
     return render(request, 'studybox/index.html', context)
 
 def signin(request):
