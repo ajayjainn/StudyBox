@@ -1,0 +1,130 @@
+{%extends 'studybox/base.html'%}
+
+{%block title%}
+<title>Tasks</title>
+{%endblock%}
+
+{%block navitem%}
+
+{%if user.is_authenticated%}
+
+<!--New task Modal-->
+
+<!-- Button trigger modal -->
+<li style="  list-style-type: none;
+" class="nav-item">
+    <a class="btn btn-success active m-1 text-nowrap" data-bs-toggle="modal" data-bs-target="#newTask">New Task</a>
+</li>
+
+<!-- Modal -->
+<div class="modal fade" id="newTask" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form method="POST">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a new task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    {%csrf_token%}
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Title</label>
+                        <input placeholder="Add a title" type="text" class="form-control" id="exampleInputEmail1"
+                            name='tasktitle'>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+{%endif%}
+
+{%endblock%}
+
+
+{%block content%}
+<div class='container'>
+
+    {%if not user.username == name%}
+    <p class="fs-3 text-center mt-2">{{name|capfirst}}</p>
+    {%endif%}
+    <div class="progress mt-2" style="height: 40px;">
+        <div class="progress-bar" role="progressbar" style="width:{{percentage}}%;">{{percentage}}%</div>
+    </div>
+
+    <table class="table table-sm my-3">
+
+        <tbody>
+            <tr class='text-center table-success'>
+                <th scope="row">
+                    Total Tasks <span class="mx-2 fw-normal"> {{totalTasks}} </span>
+                </th>
+            </tr>
+            <tr class='text-center table-danger'>
+                <th scope="row">
+                    Tasks In-Complete<span class="mx-2 fw-normal"> {{incompleteTasks}}</span>
+                </th>
+            </tr>
+        </tbody>
+        
+    </table>
+
+
+
+    <table class="table my-3 table-striped table-hover" style="border-top: 2px solid black;">
+
+        <thead style="border-bottom: 2px solid black;" class='table-dark'>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Created On</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!--Display When a Task Is not completed.-->
+            {%for task in incomplete reversed%}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{task.title}}</td>
+                <td>{{task.created_on}}</td>
+                {%if user.username == name%}
+                <form method="POST"> {%csrf_token%}
+                    <input type='hidden' name='id' value="{{task.pk}}">
+                    <td><button type='submit' class='btn btn-primary'>Complete</button></td>
+                </form>
+                {%else%}
+                <td>Incomplete</td>
+                {%endif%}
+            </tr>
+            {%endfor%}
+
+            <tr style="height: 40px !important; background-color: #FFFFFF !important; ">
+                <td colspan="4"></td>
+            </tr>
+
+            <!--Display When a Task Is completed.-->
+            {%for task in completed reversed%}
+            <tr>
+                <th class='fw-light' scope="row">{{forloop.counter}}</th>
+                <td class='fst-italic fw-light'>{{task.title}}</td>
+                <td class='fst-italic fw-light'>{{task.created_on}}</td>
+                <td class='fst-italic fw-light'>Completed</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+
+    </table>
+</div>
+{%endblock%}
