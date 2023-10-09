@@ -8,11 +8,8 @@ from django.contrib import messages
 def home(request):
     users = []
     respTaskComp= []
-
     for user in User.objects.all():
-        users.append(user.username)
         respTaskComp.append(len(user.task_set.all()))
-    
     context = {'allUsernames':users, 'tasksCompleted':respTaskComp}
     return render(request, 'studybox/index.html', context)
 

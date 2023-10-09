@@ -26,7 +26,6 @@ SECRET_KEY = '1*n@36s4bd02j2a97iplgi=ij-c5as9cyb5r7&2lz#fa#g)2nw'
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'study-box.herokuapp.com',
     '127.0.0.1'
     ]
 
@@ -40,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'studybox'
+    'myApp'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +53,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
-ROOT_URLCONF = 'myDreamProject.urls'
+ROOT_URLCONF = 'StudyBox.urls'
 
 TEMPLATES = [
     {
@@ -72,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'myDreamProject.wsgi.application'
+WSGI_APPLICATION = 'StudyBox.wsgi.application'
 
 
 # Database
